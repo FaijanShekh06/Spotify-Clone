@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Spotify Clone</title>
+    <title>Spotify - Web Player: Music for everyone</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="utility.css" />
   </head>
@@ -24,6 +24,9 @@
           <div class="heading">
             <img class="invert" src="playlist.svg" alt="playlist" />
             <h2>Youre Library</h2>
+          </div>
+          <div class="songList">
+            <ul></ul>
           </div>
           <div class="footer">
             <div>
@@ -117,7 +120,8 @@
             </svg>
           </div>
           <div class="button">
-            <button>Sign up</button> <button>Log in</button>
+            <button class="singupbtn">Sign up</button>
+            <button class="loginbtn">Log in</button>
           </div>
         </div>
         <div class="spotifyPlaylist">
@@ -138,7 +142,7 @@
             </div>
 
             <div class="card">
-               <div class="play">
+              <div class="play">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                   <path d="M8 5v14l11-7z" />
                 </svg>
@@ -151,8 +155,20 @@
               <p>By Vaisshhnavii!</p>
             </div>
           </div>
+          <div class="playbar">
+            <div class="seekbar"><div class="circle"></div></div>
+          <div class="songinfo"></div>
+          <div class="songbtn">
+            <img class="invert" src="previous.svg" alt="previous" />
+            <img class="invert" src="play.svg" alt="play" />
+            <img class="invert" src="nextSong.svg" alt="nextSong" />
+          </div>
+          <div class="songtime"></div>
         </div>
+        </div>
+        
       </div>
     </div>
+    <script src="script.js"></script>
   </body>
 </html>
