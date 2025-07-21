@@ -1,4 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Baloo+Bhai+2:wght@400..800&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Poppins&display=swap");
+
+:root {
+  --a: 0;
+}
 * {
   margin: 0;
   padding: 0;
@@ -11,6 +15,9 @@ body {
 .left {
   width: 25vw;
   padding: 10px;
+}
+.left .close {
+  display: none;
 }
 
 .right {
@@ -86,6 +93,7 @@ body {
 .cardContainer {
   margin: 30px;
   display: flex;
+
   gap: 10px;
   flex-wrap: wrap;
   overflow-y: auto;
@@ -100,6 +108,7 @@ body {
   position: relative;
   transition: all 0.9s;
 }
+
 .card:hover {
   background-color: rgb(105, 103, 103);
   cursor: pointer;
@@ -170,19 +179,19 @@ body {
   justify-content: center;
   align-items: center;
   position: fixed;
-  bottom: 17px;
-  right: 0px;
-  background: #000000;
-  border-radius: 6px;
+  bottom: 20px;
+  background-color: #000000;
+  border-radius: 10px;
   padding: 15px;
-  width: 71vw;
-  min-height: 52px;
+  width: 70vw;
+  min-height: 80px;
 }
 
 .songbtn {
   display: flex;
   justify-content: center;
-  gap: 16px;
+  gap: 20px;
+  width: 50px;
 }
 
 .songList {
@@ -273,4 +282,84 @@ body {
 .songtime {
   position: absolute;
   right: 15px;
+}
+.volume {
+  position: absolute;
+  right: 88px;
+  margin-bottom: 25px;
+  padding: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-direction: column;
+}
+
+@media (max-width: 1400px) {
+  .left {
+    background-color: #000000;
+    position: absolute;
+    left: -120%;
+    transition: all 0.3s;
+    z-index: 1;
+    width: 370px;
+    padding: 0;
+  }
+  .left .close {
+    display: block;
+    position: absolute;
+    right: 30px;
+    top: 25px;
+    cursor: pointer;
+  }
+  .right {
+    width: 100vw;
+    margin: 0;
+  }
+  .playbar {
+    width: calc(100vw - 60px);
+  }
+  .songbtn {
+    position: absolute;
+    right: 49%;
+  }
+  .seekbar {
+    width: calc(100vw - 70px);
+  }
+  .hamburger {
+    display: block;
+  }
+  .card {
+    width: 44vw;
+  }
+  .cardContainer {
+    margin: 0;
+    justify-content: center;
+  }
+  .songinfo,
+  .songtime {
+    position: absolute;
+    top: 0;
+    width: auto;
+    padding: 10px 0;
+    font-size: small;
+  }
+  .volume {
+    position: absolute;
+    bottom: 0;
+    right: 60px;
+    padding: 53px;
+    flex-direction: row;
+  }
+}
+@media (max-width: 680px) {
+  .card {
+    width: 80vw;
+  }
+}
+@media (max-width: 400px) {
+  .playbar {
+    width: calc(100vw - 20px);
+    right: 0;
+  }
 }

@@ -1,5 +1,6 @@
 console.log("Let's Write Javascript!");
 let currentSong = new Audio();
+let songs;
 function formatTime(seconds) {
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
@@ -37,7 +38,7 @@ const playMusic = (track, pause = false) => {
 };
 async function main() {
   //Get all The Songs
-  let songs = await getSongs();
+  songs = await getSongs();
   playMusic(songs[0], true);
   // console.log(songs);
   // show all the song in the playlist
@@ -79,10 +80,10 @@ async function main() {
 
   // listen for timeupdate event
   currentSong.addEventListener("timeupdate", () => {
-    console.log(currentSong.currentTime, currentSong.duration);
+    // console.log(currentSong.currentTime, currentSong.duration);
     document.querySelector(".songtime").innerHTML = `${formatTime(
       currentSong.currentTime
-    )}/${formatTime(currentSong.duration)}`;
+    )} / ${formatTime(currentSong.duration)}`;
     document.querySelector(".circle").style.left =
       (currentSong.currentTime / currentSong.duration) * 100 + "%";
   });
@@ -93,5 +94,46 @@ async function main() {
     document.querySelector(".circle").style.left = percent + "%";
     currentSong.currentTime = (currentSong.duration * percent) / 100;
   });
+
+  //Add an event listener for hamburger
+  document.querySelector(".hamburger").addEventListener("click", () => {
+    document.querySelector(".left").style.left = "0";
+  });
+
+  //Add an event listener for Close
+  document.querySelector(".close").addEventListener("click", () => {
+    document.querySelector(".left").style.left = "-120%";
+  });
+
+  //Add an event listener to  next
+  previous.addEventListener("click", () => {
+    currentSong.pause();
+    console.log("previous Clicked");
+    let index = songs.indexOf(currentSong.src.split("/").slice(-1)[0]);
+    // console.log(songs, index);
+    if (index - 1 >= 0) {
+      playMusic(songs[index - 1]);
+    }
+  });
+
+  //Add an event listener to next
+  next.addEventListener("click", () => {
+    currentSong.pause();
+    console.log("next Clicked");
+    let index = songs.indexOf(currentSong.src.split("/").slice(-1)[0]);
+    // console.log(songs, index);
+    if (index + 1 < songs.length) {
+      playMusic(songs[index + 1]);
+    }
+  });
+
+  // Add an event listener to volume
+  document
+    .querySelector(".range")
+    .getElementsByTagName("input")[0]
+    .addEventListener("change", (e) => {
+      console.log("Setting Volume to", e.target.value);
+      currentSong.volume = parseInt(e.target.value) / 100;
+    });
 }
 main();
