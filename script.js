@@ -1,6 +1,7 @@
 console.log("Let's Write Javascript!");
 let currentSong = new Audio();
 let songs;
+let currFolder;
 function formatTime(seconds) {
   const mins = Math.floor(seconds / 60);
   const secs = Math.floor(seconds % 60);
@@ -11,40 +12,26 @@ function formatTime(seconds) {
   return `${formattedMins}.${formattedSecs}`;
 }
 
-async function getSongs() {
-  let a = await fetch("http://127.0.0.1:3000/songs/");
+async function getSongs(folder) {
+  currFolder = folder;
+  let a = await fetch(`http://127.0.0.1:3000/${folder}/`);
   let response = await a.text();
   // console.log(response);
   let div = document.createElement("div");
   div.innerHTML = response;
   let as = div.getElementsByTagName("a");
-  let songs = [];
+  songs = [];
   for (let index = 0; index < as.length; index++) {
     const element = as[index];
     if (element.href.endsWith(".mp3")) {
-      songs.push(element.href.split("/songs/")[1]);
+      songs.push(element.href.split(`/${folder}/`)[1]);
     }
   }
-  return songs;
-}
-const playMusic = (track, pause = false) => {
-  currentSong.src = "/songs/" + track;
-  if (!pause) {
-    currentSong.play();
-    play.src = "pause.svg";
-  }
-  document.querySelector(".songinfo").innerHTML = decodeURI(track);
-  document.querySelector(".songtime").innerHTML = "00.00 / 00.00";
-};
-async function main() {
-  //Get all The Songs
-  songs = await getSongs();
-  playMusic(songs[0], true);
-  // console.log(songs);
   // show all the song in the playlist
   let songUl = document
     .querySelector(".songList")
     .getElementsByTagName("ul")[0];
+  songUl.innerHTML = ""
   for (const song of songs) {
     songUl.innerHTML =
       songUl.innerHTML +
@@ -67,6 +54,41 @@ async function main() {
       playMusic(e.querySelector(".info").firstElementChild.innerHTML.trim());
     });
   });
+}
+const playMusic = (track, pause = false) => {
+  currentSong.src = `/${currFolder}/` + track;
+  if (!pause) {
+    currentSong.play();
+    play.src = "pause.svg";
+  }
+  document.querySelector(".songinfo").innerHTML = decodeURI(track);
+  document.querySelector(".songtime").innerHTML = "00.00 / 00.00";
+};
+
+async function displayAlbums() {
+  let a = await fetch(`http://127.0.0.1:3000/songs/`);
+  let response = await a.text();
+  let div = document.createElement("div");
+  div.innerHTML = response;
+  let anchors = div.getElementsByTagName("a");
+  Array.from(anchors).forEach(e => {
+    if (e.href.includes("/songs")) {
+      console.log(e.href.split("/").slice(-2)[0]);
+
+    }
+  })
+
+}
+
+async function main() {
+  //Get all The Songs
+  await getSongs("songs/ncs");
+  playMusic(songs[0], true);
+  // console.log(songs);
+
+  // display all the albums on the page
+  displayAlbums()
+
   // Attache an Event listner to play,next and previous
   play.addEventListener("click", () => {
     if (currentSong.paused) {
@@ -135,5 +157,12 @@ async function main() {
       console.log("Setting Volume to", e.target.value);
       currentSong.volume = parseInt(e.target.value) / 100;
     });
+
+  //Load the playlist whenever card is clicked
+  Array.from(document.getElementsByClassName("card")).forEach((e) => {
+    e.addEventListener("click", async (item) => {
+      songs = await getSongs(`songs/${item.currentTarget.dataset.folder}`);
+    });
+  });
 }
 main();
