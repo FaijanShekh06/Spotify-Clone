@@ -38,7 +38,7 @@ async function getSongs(folder) {
   let songUL = document.querySelector(".songList").getElementsByTagName("ul")[0]
   songUL.innerHTML = ""
   for (const song of songs) {
-    songUL.innerHTML = songUL.innerHTML + `<li><img class="invert" width="30" src="music.svg" alt="">
+    songUL.innerHTML = songUL.innerHTML + `<li><img class="invert" width="25" src="img/music.svg" alt="">
                             <div class="info">
                                 <div> ${song.replaceAll("%20", " ")}</div>
                                 <div>Official Artist</div>
